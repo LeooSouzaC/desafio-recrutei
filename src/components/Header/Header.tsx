@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import {
   HeaderContent,
@@ -23,7 +25,7 @@ function Header() {
         <HeaderTitle>Teste vaga front</HeaderTitle>
       </HeaderContent>
       <WrapperAddTaskButton>
-        <Button>Adicionar tarefa</Button>
+        <Button onClick={() => {}}>Adicionar tarefa</Button>
       </WrapperAddTaskButton>
     </HeaderWrapper>
   );
