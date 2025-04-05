@@ -1,9 +1,32 @@
+import Image from "next/image";
+import {
+  HeaderContent,
+  HeaderTitle,
+  HeaderWrapper,
+  WrapperAddTaskButton,
+  WrapperLogo,
+} from "./Header.styles";
+import Button from "../Button";
+
 function Header() {
-    return (
-        <div>
-            <h1>teste header</h1>
-        </div>
-    )
+  return (
+    <HeaderWrapper>
+      <HeaderContent>
+        <WrapperLogo>
+          <Image
+            src="recrutei3.svg"
+            width={31}
+            height={31}
+            alt="recrutei vector"
+          />
+        </WrapperLogo>
+        <HeaderTitle>Teste vaga front</HeaderTitle>
+      </HeaderContent>
+      <WrapperAddTaskButton>
+        <Button>Adicionar tarefa</Button>
+      </WrapperAddTaskButton>
+    </HeaderWrapper>
+  );
 }
 
 export default Header;
