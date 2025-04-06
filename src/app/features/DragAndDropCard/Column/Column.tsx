@@ -8,6 +8,7 @@ import {
   ColumnSubtitle,
   ColumnTitle,
 } from "./Column.styles";
+import { useDroppable } from "@dnd-kit/core";
 
 type ColumnProps = {
   column: {
@@ -21,6 +22,7 @@ type ColumnProps = {
 };
 
 function Column({ column }: ColumnProps) {
+  const { setNodeRef } = useDroppable({ id: column?.id });
   const tasksQuantity = column?.tasks?.length || 0;
   const formattedSubtitle =
     tasksQuantity === 1
@@ -33,7 +35,7 @@ function Column({ column }: ColumnProps) {
       items={column?.tasks}
       strategy={rectSortingStrategy}
     >
-      <ColumnContainer>
+      <ColumnContainer ref={setNodeRef}>
         <ColumnHeader>
           <ColumnTitle>{column.title}</ColumnTitle>
           {tasksQuantity > 0 && (

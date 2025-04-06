@@ -1,11 +1,13 @@
-import KanbanBoard from "@/components/DragAndDropCard";
-import Header from "@/components/Header";
+import AddTaskModal from "./features/AddTaskModal";
+import KanbanBoard from "./features/DragAndDropCard";
+import Header from "./features/Header";
 
 export default function Home() {
   return (
     <>
       <Header />
       <KanbanBoard />
+      <AddTaskModal />
     </>
   );
 }

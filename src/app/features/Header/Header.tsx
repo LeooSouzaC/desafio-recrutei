@@ -8,7 +8,7 @@ import {
   WrapperAddTaskButton,
   WrapperLogo,
 } from "./Header.styles";
-import Button from "../Button";
+import Button from "@/components/Button";
 
 function Header() {
   return (
