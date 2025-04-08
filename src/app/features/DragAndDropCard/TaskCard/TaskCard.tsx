@@ -11,6 +11,7 @@ import {
   DeadlineDescription,
   ResponsibleChip,
   ResponsiblesArea,
+  StatusIcon,
 } from "./TaskCard.styles";
 
 export interface TaskProps {
@@ -36,11 +37,29 @@ function TaskCard({ task }: TaskProps) {
 
   return (
     <CardContainer
+      completed
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
     >
+      <StatusIcon>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="16"
+          width="16"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="white"
+          strokeWidth="2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </StatusIcon>
       <div>
         <CardTitle>{task.title}</CardTitle>
         <CardSubtitle>{task.description}</CardSubtitle>

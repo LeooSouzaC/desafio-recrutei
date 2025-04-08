@@ -2,7 +2,11 @@
 
 import { styled } from "styled-components";
 
-export const CardContainer = styled.div`
+interface CardContainerProps {
+  completed: boolean;
+}
+
+export const CardContainer = styled.div<CardContainerProps>`
   background-color: #fff;
   padding: 16px;
   border-radius: 24px;
@@ -12,10 +16,31 @@ export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  border: ${({ completed }) => (completed ? "1px solid #63B150" : "none")};
+  position: relative;
 
   &:active {
     cursor: grabbing;
   }
+`;
+
+export const StatusIcon = styled.div`
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 24px;
+  height: 50px;
+  background-color: #4caf50;
+  border-top-left-radius: 8px; // Usar MATERIAL ICONS
+  border-top-right-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 50%, 0 75%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 export const CardTitle = styled.h5`

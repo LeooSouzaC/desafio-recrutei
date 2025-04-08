@@ -13,7 +13,12 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { useState } from "react";
 import Column from "./Column";
-import { BoardContainer, KanbanContent } from "./DragAndDrop.styles";
+import {
+  BoardContainer,
+  KanbanContent,
+  PaginationArea,
+  PaginationButton,
+} from "./DragAndDrop.styles";
 
 const initialData = [
   {
@@ -190,6 +195,10 @@ function KanbanBoard() {
       onDragOver={handleDragOver}
     >
       <KanbanContent>
+        <PaginationArea>
+          <PaginationButton>{"<"}</PaginationButton>
+          <PaginationButton>{">"}</PaginationButton>
+        </PaginationArea>
         <BoardContainer>
           {columns.map((column) => (
             <Column key={column?.id} column={column} />

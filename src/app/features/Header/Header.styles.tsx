@@ -34,7 +34,7 @@ export const HeaderTitle = styled.span`
   font-weight: 700;
   line-height: 100%;
   letter-spacing: -2%;
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 export const WrapperAddTaskButton = styled.div`
@@ -42,7 +42,8 @@ export const WrapperAddTaskButton = styled.div`
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
   background-color: white;
-  grid-column: 6 / 8;
+  grid-column: 1 / -1;
+  justify-self: center;
   display: flex;
   align-items: center;
   justify-content: center;
