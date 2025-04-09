@@ -12,10 +12,21 @@ import {
   TextArea,
 } from "./AddTaskModal.styles";
 import Button from "@/components/Button";
+import { kanbanStore } from "@/stores/kanban/kanban.store";
 
 function AddTaskModal() {
+  const { setOpenAddTaskModal, openAddTaskModal, taskParams, setTaskParams } =
+    kanbanStore();
+
+  const handleAddTask = () => {};
+
   return (
-    <Modal isOpen onClose={() => {}}>
+    <Modal
+      isOpen={openAddTaskModal}
+      onClose={() => {
+        setOpenAddTaskModal(false);
+      }}
+    >
       <AddTaskModalContent>
         <div>
           <ModalTitle>Adicionar tarefa</ModalTitle>

@@ -1,12 +1,14 @@
 "use client";
 
-import { styled } from "styled-components";
+import styled from "styled-components";
 
 interface CardContainerProps {
-  completed: boolean;
+  isCompleted: boolean;
 }
 
-export const CardContainer = styled.div<CardContainerProps>`
+export const CardContainer = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "isCompleted",
+})<CardContainerProps>`
   background-color: #fff;
   padding: 16px;
   border-radius: 24px;
@@ -16,7 +18,7 @@ export const CardContainer = styled.div<CardContainerProps>`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border: ${({ completed }) => (completed ? "1px solid #63B150" : "none")};
+  border: ${({ isCompleted }) => (isCompleted ? "1px solid #63B150" : "none")};
   position: relative;
 
   &:active {
@@ -24,23 +26,18 @@ export const CardContainer = styled.div<CardContainerProps>`
   }
 `;
 
-export const StatusIcon = styled.div`
+export const FlagWrapper = styled.div`
   position: absolute;
-  top: -10px;
-  left: -10px;
-  width: 24px;
-  height: 50px;
-  background-color: #4caf50;
-  border-top-left-radius: 8px; // Usar MATERIAL ICONS
-  border-top-right-radius: 8px;
-  clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 50%, 0 75%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+  top: -8px;
+  left: 12px;
+  color: #63b150;
+`;
+
+export const WrapperCheckIcon = styled.div`
+  position: absolute;
   color: white;
-  font-size: 18px;
-  font-weight: bold;
+  bottom: 8px;
+  left: 6px;
 `;
 
 export const CardTitle = styled.h5`

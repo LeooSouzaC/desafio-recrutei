@@ -10,7 +10,7 @@ import {
 } from "./Column.styles";
 import { useDroppable } from "@dnd-kit/core";
 
-type ColumnProps = {
+interface ColumnProps {
   column: {
     id: string;
     title: string;
@@ -19,7 +19,7 @@ type ColumnProps = {
       title: string;
     }[];
   };
-};
+}
 
 function Column({ column }: ColumnProps) {
   const { setNodeRef } = useDroppable({ id: column?.id });

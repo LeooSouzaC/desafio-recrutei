@@ -9,8 +9,11 @@ import {
   WrapperLogo,
 } from "./Header.styles";
 import Button from "@/components/Button";
+import { kanbanStore } from "@/stores/kanban/kanban.store";
 
 function Header() {
+  const { setOpenAddTaskModal } = kanbanStore();
+
   return (
     <HeaderWrapper>
       <HeaderContent>
@@ -25,7 +28,9 @@ function Header() {
         <HeaderTitle>Teste vaga front</HeaderTitle>
       </HeaderContent>
       <WrapperAddTaskButton>
-        <Button onClick={() => {}}>Adicionar tarefa</Button>
+        <Button onClick={() => setOpenAddTaskModal(true)}>
+          Adicionar tarefa
+        </Button>
       </WrapperAddTaskButton>
     </HeaderWrapper>
   );

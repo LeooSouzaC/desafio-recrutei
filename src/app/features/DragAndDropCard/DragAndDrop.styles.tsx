@@ -16,14 +16,24 @@ export const PaginationArea = styled.div`
   gap: 8px;
 `;
 
-export const PaginationButton = styled.div`
+interface IPagination {
+  isDisabled: boolean;
+}
+
+export const PaginationButton = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "isDisabled",
+})<IPagination>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
-  height: 40px;
-  background-color: white;
+  padding: 12px 24px;
+  background-color: ${({ isDisabled }) => (isDisabled ? "#ADB8CB33" : "white")};
   border-radius: 50%;
+  color: #adb8cb;
+  cursor: pointer;
+  box-shadow: ${({ isDisabled }) =>
+    isDisabled ? "none" : "0px 4px 14px 0px rgba(189, 209, 223, 0.3)"};
 `;
 
 export const BoardContainer = styled.div`
@@ -33,4 +43,5 @@ export const BoardContainer = styled.div`
   gap: 16px;
   height: 100vh;
   overflow: auto;
+  scroll-behavior: smooth;
 `;

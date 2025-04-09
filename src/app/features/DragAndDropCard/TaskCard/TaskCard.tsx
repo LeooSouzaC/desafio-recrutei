@@ -11,8 +11,11 @@ import {
   DeadlineDescription,
   ResponsibleChip,
   ResponsiblesArea,
-  StatusIcon,
+  FlagWrapper,
+  WrapperCheckIcon,
 } from "./TaskCard.styles";
+import { kanbanStore } from "@/stores/kanban/kanban.store";
+import { Bookmark, CheckCircleOutline } from "@mui/icons-material";
 
 export interface TaskProps {
   task: {
@@ -25,6 +28,7 @@ export interface TaskProps {
 }
 
 function TaskCard({ task }: TaskProps) {
+  const { columns, setOpenDetailModal } = kanbanStore();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: task.id,
@@ -35,31 +39,31 @@ function TaskCard({ task }: TaskProps) {
     transition,
   };
 
+  const isCompletedStage =
+    !!columns
+      ?.find((e) => e?.id === "completed")
+      ?.tasks?.find((c) => c?.id === task?.id) || false;
+
   return (
     <CardContainer
-      completed
+      isCompleted={isCompletedStage}
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
+      // {...attributes}
+      // {...listeners}  https://github.com/clauderic/dnd-kit/issues/800
+      onClick={() => {
+        console.log("click");
+        setOpenDetailModal(true);
+      }}
     >
-      <StatusIcon>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="16"
-          width="16"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="white"
-          strokeWidth="2"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-      </StatusIcon>
+      {isCompletedStage && (
+        <FlagWrapper>
+          <Bookmark />
+          <WrapperCheckIcon>
+            <CheckCircleOutline sx={{ fontSize: 12 }} />
+          </WrapperCheckIcon>
+        </FlagWrapper>
+      )}
       <div>
         <CardTitle>{task.title}</CardTitle>
         <CardSubtitle>{task.description}</CardSubtitle>

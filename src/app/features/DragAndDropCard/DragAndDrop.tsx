@@ -11,7 +11,6 @@ import {
   DragOverEvent,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { useState } from "react";
 import Column from "./Column";
 import {
   BoardContainer,
@@ -19,76 +18,14 @@ import {
   PaginationArea,
   PaginationButton,
 } from "./DragAndDrop.styles";
-
-const initialData = [
-  {
-    id: "ideas",
-    title: "Idéias",
-    tasks: [
-      {
-        id: "1",
-        title: "Pesquisa de Mercado",
-        description:
-          "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
-        responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
-      },
-    ],
-  },
-  {
-    id: "to-do",
-    title: "A Fazer",
-    tasks: [
-      {
-        id: "2",
-        title: "Desenvolvimento de Protótipo",
-        description:
-          "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
-        responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
-      },
-    ],
-  },
-  {
-    id: "in-progress",
-    title: "Fazendo",
-    tasks: [
-      {
-        id: "3",
-        title: "Implementação de API",
-        description:
-          "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
-        responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
-      },
-    ],
-  },
-  {
-    id: "completed",
-    title: "Feito",
-    tasks: [
-      {
-        id: "4",
-        title: "Teste de Usabilidade",
-        description:
-          "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
-        responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
-      },
-      {
-        id: "5",
-        title: "Teste de Usabilidade",
-        description:
-          "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
-        responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
-      },
-    ],
-  },
-];
+import { kanbanStore } from "@/stores/kanban/kanban.store";
+import { IColumns } from "@/stores/kanban/kanban.dto";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { useEffect, useRef } from "react";
 
 function KanbanBoard() {
-  const [columns, setColumns] = useState(initialData);
+  const { columns, setColumns, setPagination, pagination } = kanbanStore();
+  const boardRef = useRef<HTMLDivElement>(null);
 
   const findColumn = (unique: string | null) => {
     if (!unique) {
@@ -118,13 +55,12 @@ function KanbanBoard() {
       return;
     }
 
-    setColumns((prevState) => {
+    setColumns((prevState: IColumns[]) => {
       const activeItems = activeColumn.tasks;
       const overItems = overColumn.tasks;
 
       const activeIndex = activeItems.findIndex((i) => i.id === activeId);
 
-      // Se o over.id é uma coluna, adiciona no final
       const isOverColumn = overColumn.id === overId;
       const newIndex = () => {
         if (isOverColumn) return overItems.length;
@@ -167,7 +103,7 @@ function KanbanBoard() {
     const activeIndex = activeColumn.tasks.findIndex((i) => i.id === activeId);
     const overIndex = overColumn.tasks.findIndex((i) => i.id === overId);
     if (activeIndex !== overIndex) {
-      setColumns((prevState) => {
+      setColumns((prevState: IColumns[]) => {
         return prevState.map((column) => {
           if (column.id === activeColumn.id) {
             column.tasks = arrayMove(overColumn.tasks, activeIndex, overIndex);
@@ -187,6 +123,23 @@ function KanbanBoard() {
     })
   );
 
+  useEffect(() => {
+    console.log("passou");
+    if (!boardRef.current) return;
+
+    const behavior: ScrollBehavior = "smooth";
+
+    if (pagination === "start") {
+      boardRef.current.scrollTo({ left: 0, behavior });
+    } else if (pagination === "end") {
+      boardRef.current.scrollTo({
+        left: boardRef.current.scrollWidth,
+        behavior,
+      });
+    }
+  }, [pagination]);
+
+  console.log(pagination);
   return (
     <DndContext
       sensors={sensors}
@@ -196,11 +149,21 @@ function KanbanBoard() {
     >
       <KanbanContent>
         <PaginationArea>
-          <PaginationButton>{"<"}</PaginationButton>
-          <PaginationButton>{">"}</PaginationButton>
+          <PaginationButton
+            onClick={() => setPagination("start")}
+            isDisabled={pagination === "start"}
+          >
+            <KeyboardArrowLeft />
+          </PaginationButton>
+          <PaginationButton
+            onClick={() => setPagination("end")}
+            isDisabled={pagination === "end"}
+          >
+            <KeyboardArrowRight />
+          </PaginationButton>
         </PaginationArea>
-        <BoardContainer>
-          {columns.map((column) => (
+        <BoardContainer ref={boardRef}>
+          {columns?.map((column) => (
             <Column key={column?.id} column={column} />
           ))}
         </BoardContainer>
