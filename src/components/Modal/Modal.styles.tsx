@@ -15,13 +15,17 @@ export const Overlay = styled.div`
   z-index: 999;
 `;
 
-export const ModalContainer = styled.div`
+interface IModalProps {
+  width?: string;
+}
+
+export const ModalContainer = styled.div<IModalProps>`
   position: relative;
   background: white;
   padding: 16px;
   border-radius: 24px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
+  max-width: ${({ width }) => width || "400px"};
   width: 90%;
 `;
 

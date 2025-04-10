@@ -12,50 +12,63 @@ import {
   DeadlineAlert,
   Description,
 } from "./TaskDetailModal.styles";
+import { useEffect } from "react";
+import { getDeadlineStatus } from "@/utils/getDeadlineStatus";
+import dayjs from "dayjs";
+import LoadingTaskDetail from "./Loading";
 
 function TaskDetailModal() {
-  const { openDetailModal, setOpenDetailModal } = kanbanStore();
+  const {
+    openDetailModal,
+    setOpenDetailModal,
+    fetchTaskDetail,
+    loadingTaskDetail,
+    taskDetail,
+  } = kanbanStore();
+
+  const formattedDate = dayjs(taskDetail?.date).format("DD/MM");
+  const deadlineStatus = getDeadlineStatus({
+    dateString: dayjs(taskDetail?.date),
+  });
+
+  useEffect(() => {
+    if (openDetailModal) {
+      fetchTaskDetail();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openDetailModal]);
 
   return (
     <Modal
+      width="450px"
       isOpen={openDetailModal}
       onClose={() => {
         setOpenDetailModal(false);
       }}
     >
-      <ModalContainer>
-        <ModalHeader>
-          <div>
-            <ModalTitle>Desenvolvimento de Protótipo</ModalTitle>
-            <ModalSubtitle>
-              Responsáveis: Matheus Gomes, Pedro Paulo e Paulo
-            </ModalSubtitle>
-          </div>
+      {loadingTaskDetail ? (
+        <LoadingTaskDetail />
+      ) : (
+        <ModalContainer>
+          <ModalHeader>
+            <div>
+              <ModalTitle>{taskDetail?.title}</ModalTitle>
+              <ModalSubtitle>
+                Responsáveis: {taskDetail?.responsible?.join(", ")}
+              </ModalSubtitle>
+            </div>
 
-          <DateArea>
-            <DeadlineAlert>Faltam 5 dias</DeadlineAlert>
-            <Date>26/07</Date>
-          </DateArea>
-        </ModalHeader>
+            <DateArea>
+              <DeadlineAlert color={deadlineStatus?.color}>
+                {deadlineStatus?.text}
+              </DeadlineAlert>
+              <Date>{formattedDate}</Date>
+            </DateArea>
+          </ModalHeader>
 
-        <Description>
-          Criar um protótipo funcional da nova funcionalidade do produto para
-          apresentação aos stakeholders é uma tarefa crucial que requer atenção
-          aos detalhes e uma execução precisa. O protótipo deve incluir todas as
-          funcionalidades essenciais que demonstram claramente o valor agregado
-          e a inovação que a nova funcionalidade traz para o produto. Além
-          disso, é importante que o protótipo seja intuitivo e fácil de
-          entender, permitindo que os stakeholders visualizem como a
-          funcionalidade será integrada no produto final. A apresentação deve
-          ser bem estruturada, destacando os principais benefícios e mostrando
-          exemplos práticos de uso. A preparação adequada e a prática da
-          apresentação também são essenciais para garantir que todas as
-          perguntas dos stakeholders sejam respondidas de maneira eficaz. Este
-          processo não só facilita a compreensão da nova funcionalidade, mas
-          também ajuda a obter o feedback necessário para ajustes e melhorias
-          antes do lançamento oficial.
-        </Description>
-      </ModalContainer>
+          <Description>{taskDetail?.description}</Description>
+        </ModalContainer>
+      )}
     </Modal>
   );
 }

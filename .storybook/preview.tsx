@@ -1,14 +1,14 @@
 import React from "react";
 import type { Preview } from "@storybook/react";
 import { GlobalStyle } from "../src/styles/global";
-import StyledComponentsRegistry from "../src/lib/registry";
+import StyledComponentsRegistry from "../src/lib/styledComponentsRegistry";
 
 const preview: Preview = {
   decorators: [
     (Story) => (
       <StyledComponentsRegistry>
-          <GlobalStyle />
-          <Story />
+        <GlobalStyle />
+        <Story />
       </StyledComponentsRegistry>
     ),
   ],

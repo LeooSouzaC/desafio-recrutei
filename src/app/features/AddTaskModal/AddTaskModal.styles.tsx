@@ -37,65 +37,91 @@ export const ComponentContainer = styled.div`
   }
 `;
 
-export const Input = styled.input`
-  padding: 10px 12px;
-  border: 1px solid #adb8cb;
-  border-radius: 24px;
-  font-size: 14px;
-  height: 40px;
-  outline: none;
-`;
-
-export const TextArea = styled.textarea`
-  padding: 12px 12px;
-  border: 1px solid #adb8cb;
-  border-radius: 24px;
-  font-size: 14px;
-  outline: none;
-  resize: none;
-  min-height: 100px;
-  transition: border 0.2s ease;
-`;
-
-export const Select = styled.select`
-  padding: 10px 12px;
-  border: 1px solid #adb8cb;
-  border-radius: 24px;
-  font-size: 14px;
-  outline: none;
-  background-image: url("data:image/svg+xml,%3Csvg fill='gray' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  background-size: 16px;
-  appearance: none;
-  cursor: pointer;
-  height: 40px;
-
-  option {
-    padding-top: 32px;
-  }
-`;
-
-export const DateInput = styled.input.attrs({ type: "date" })`
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #adb8cb;
-  border-radius: 24px;
-  outline: none;
-  height: 40px;
-  width: 50%;
-  margin-bottom: 16px;
-
-  appearance: none;
-  -webkit-appearance: none;
-
-  background-image: url("data:image/svg+xml,%3Csvg fill='gray' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  background-size: 18px;
-
-  &::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    cursor: pointer;
-  }
-`;
+export const sxMuiComponents = {
+  input: {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "24px",
+      fontSize: "14px",
+      height: "40px",
+      padding: 0,
+      "& fieldset": {
+        borderColor: "#adb8cb",
+      },
+      "&:hover fieldset": {
+        borderColor: "#adb8cb",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#adb8cb",
+      },
+    },
+    "& input": {
+      padding: "10px 12px",
+    },
+  },
+  textarea: {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "24px",
+      fontSize: "14px",
+      "& fieldset": {
+        borderColor: "#adb8cb",
+      },
+      "&:hover fieldset": {
+        borderColor: "#adb8cb",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#adb8cb",
+      },
+    },
+  },
+  select: {
+    height: "40px",
+    borderRadius: "24px",
+    fontSize: "14px",
+    padding: "0px",
+    cursor: "pointer",
+    "& .MuiSelect-select": {
+      padding: "10px 12px",
+      display: "flex",
+      alignItems: "center",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#adb8cb",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#adb8cb",
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#adb8cb",
+    },
+  },
+  date: {
+    "& .MuiOutlinedInput-root": {
+      padding: "10px 12px",
+      borderRadius: "24px",
+      height: 40,
+      width: "50%",
+      fontSize: 14,
+      outline: "none",
+      backgroundColor: "#fff",
+      "& fieldset": {
+        borderColor: "#adb8cb",
+      },
+      "&:hover fieldset": {
+        borderColor: "#adb8cb",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#adb8cb",
+      },
+    },
+    "& .MuiInputBase-input": {
+      padding: 0,
+    },
+    "& .MuiInputLabel-root": {
+      top: "-5px",
+    },
+    "& .MuiSvgIcon-root": {
+      fontSize: "18px",
+      color: "#ADB8CB",
+    },
+  },
+};

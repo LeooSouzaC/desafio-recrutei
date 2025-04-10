@@ -41,7 +41,8 @@ export const BoardContainer = styled.div`
 
   display: flex;
   gap: 16px;
-  height: 100vh;
+  height: 75vh;
   overflow: auto;
   scroll-behavior: smooth;
+  padding-right: 16px;
 `;

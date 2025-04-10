@@ -32,12 +32,16 @@ export const DateArea = styled.div`
   gap: 8px;
 `;
 
-export const DeadlineAlert = styled.span`
+interface IDeadlineAlertProps {
+  color: string;
+}
+
+export const DeadlineAlert = styled.span<IDeadlineAlertProps>`
   font-size: 10px;
   font-weight: 600;
   letter-spacing: -2%;
   line-height: 100%;
-  color: #ffa500;
+  color: ${({ color }) => color};
 `;
 
 export const Date = styled.div`

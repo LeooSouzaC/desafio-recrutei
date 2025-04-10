@@ -16,15 +16,12 @@ import {
 } from "./TaskCard.styles";
 import { kanbanStore } from "@/stores/kanban/kanban.store";
 import { Bookmark, CheckCircleOutline } from "@mui/icons-material";
+import { getDeadlineStatus } from "@/utils/getDeadlineStatus";
+import { ITasks } from "@/stores/kanban/kanban.dto";
+import dayjs from "dayjs";
 
 export interface TaskProps {
-  task: {
-    id: string;
-    title: string;
-    description?: string;
-    responsibles?: string[];
-    deadline?: string;
-  };
+  task: ITasks;
 }
 
 function TaskCard({ task }: TaskProps) {
@@ -44,15 +41,19 @@ function TaskCard({ task }: TaskProps) {
       ?.find((e) => e?.id === "completed")
       ?.tasks?.find((c) => c?.id === task?.id) || false;
 
+  const deadlineStatus = getDeadlineStatus({
+    dateString: task.deadline,
+    isDelivered: isCompletedStage,
+  });
+
   return (
     <CardContainer
       isCompleted={isCompletedStage}
       ref={setNodeRef}
       style={style}
-      // {...attributes}
-      // {...listeners}  https://github.com/clauderic/dnd-kit/issues/800
+      {...attributes}
+      {...listeners}
       onClick={() => {
-        console.log("click");
         setOpenDetailModal(true);
       }}
     >
@@ -69,9 +70,13 @@ function TaskCard({ task }: TaskProps) {
         <CardSubtitle>{task.description}</CardSubtitle>
       </div>
       <DeadlineArea>
-        <DeadlineDescription>Data limite: {task.deadline}</DeadlineDescription>
+        <DeadlineDescription>
+          Data limite: {dayjs(task.deadline).format("DD/MM")}
+        </DeadlineDescription>
 
-        <DeadlineAlert>Faltam 10 dias</DeadlineAlert>
+        <DeadlineAlert color={deadlineStatus?.color}>
+          {deadlineStatus?.text}
+        </DeadlineAlert>
       </DeadlineArea>
 
       <ResponsiblesArea>

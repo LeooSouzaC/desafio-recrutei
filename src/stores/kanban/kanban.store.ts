@@ -1,5 +1,7 @@
+"use client";
 import { create } from "zustand";
 import { ITaskParams, KanbanStoreDto } from "./kanban.dto";
+import dayjs from "dayjs";
 
 const initialColumns = [
   {
@@ -11,7 +13,7 @@ const initialColumns = [
         title: "Pesquisa de Mercado",
         description:
           "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
+        deadline: dayjs(),
         responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
       },
     ],
@@ -25,7 +27,7 @@ const initialColumns = [
         title: "Desenvolvimento de Protótipo",
         description:
           "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
+        deadline: dayjs(),
         responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
       },
     ],
@@ -39,7 +41,7 @@ const initialColumns = [
         title: "Implementação de API",
         description:
           "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
+        deadline: dayjs(),
         responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
       },
     ],
@@ -53,7 +55,7 @@ const initialColumns = [
         title: "Teste de Usabilidade",
         description:
           "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
+        deadline: dayjs(),
         responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
       },
       {
@@ -61,7 +63,7 @@ const initialColumns = [
         title: "Teste de Usabilidade",
         description:
           "Criar um protótipo funcional e detalhado da nova funcionalidade inovadora do produto para uma apresentação impactante...",
-        deadline: "26/07",
+        deadline: dayjs(),
         responsibles: ["Matheus Gomes", "Pedro Paulo", "Pedro"],
       },
     ],
@@ -73,13 +75,15 @@ export const kanbanStore = create<KanbanStoreDto>((set) => ({
   columns: initialColumns,
   taskParams: {
     id: "",
-    deadline: "",
+    deadline: dayjs(),
     description: "",
-    responsible: [],
+    responsibles: [],
     title: "",
   },
   pagination: "start",
   openDetailModal: false,
+  taskDetail: null,
+  loadingTaskDetail: false,
 
   setOpenAddTaskModal: (value: boolean) => set({ openAddTaskModal: value }),
   setColumns: (value) =>
@@ -89,4 +93,30 @@ export const kanbanStore = create<KanbanStoreDto>((set) => ({
   setTaskParams: (value: ITaskParams) => set({ taskParams: value }),
   setPagination: (value: "start" | "end") => set({ pagination: value }),
   setOpenDetailModal: (value: boolean) => set({ openDetailModal: value }),
+
+  fetchTaskDetail: async () => {
+    set({ loadingTaskDetail: true });
+    try {
+      const response = await fetch(
+        "https://api.npoint.io/21c80c25ed65b6f3484f"
+      );
+      const result = await response.json();
+      set({ taskDetail: result?.[0] });
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    } finally {
+      set({ loadingTaskDetail: false });
+    }
+  },
+  resetTaskParams: () => {
+    set({
+      taskParams: {
+        id: "",
+        deadline: dayjs(),
+        description: "",
+        responsibles: [],
+        title: "",
+      },
+    });
+  },
 }));

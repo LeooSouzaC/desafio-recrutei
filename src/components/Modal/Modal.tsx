@@ -7,14 +7,15 @@ type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  width?: string;
 };
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+const Modal = ({ isOpen, onClose, children, width }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
     <Overlay>
-      <ModalContainer>
+      <ModalContainer width={width}>
         <CloseButton onClick={onClose}>x</CloseButton>
         {children}
       </ModalContainer>

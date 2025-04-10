@@ -1,7 +1,6 @@
 "use client";
 
 import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import TaskCard from "../TaskCard";
 import {
   ColumnContainer,
   ColumnHeader,
@@ -9,16 +8,11 @@ import {
   ColumnTitle,
 } from "./Column.styles";
 import { useDroppable } from "@dnd-kit/core";
+import TaskCard from "@/components/TaskCard";
+import { IColumns } from "@/stores/kanban/kanban.dto";
 
 interface ColumnProps {
-  column: {
-    id: string;
-    title: string;
-    tasks: {
-      id: string;
-      title: string;
-    }[];
-  };
+  column: IColumns;
 }
 
 function Column({ column }: ColumnProps) {

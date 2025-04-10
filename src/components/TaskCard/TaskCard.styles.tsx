@@ -73,8 +73,12 @@ export const DeadlineDescription = styled.span`
   letter-spacing: -2%;
 `;
 
-export const DeadlineAlert = styled.span`
-  color: #63b150;
+interface IDeadlineAlertProps {
+  color: string;
+}
+
+export const DeadlineAlert = styled.span<IDeadlineAlertProps>`
+  color: ${({ color }) => color};
   font-weight: 600;
   font-size: 10px;
   line-height: 100%;

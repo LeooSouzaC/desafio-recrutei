@@ -117,14 +117,15 @@ function KanbanBoard() {
   };
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
 
   useEffect(() => {
-    console.log("passou");
     if (!boardRef.current) return;
 
     const behavior: ScrollBehavior = "smooth";
@@ -139,7 +140,6 @@ function KanbanBoard() {
     }
   }, [pagination]);
 
-  console.log(pagination);
   return (
     <DndContext
       sensors={sensors}
